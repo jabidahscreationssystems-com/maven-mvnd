@@ -259,10 +259,11 @@ public class DefaultClient implements Client {
 
         // Print version if needed
         if (version || showVersion || verbose) {
+            boolean isColored = !"never".equals(Environment.MAVEN_COLOR.getCommandLineOption(args));
+
             // Print ASCII art banner
             String banner = loadBanner();
             if (banner != null) {
-                boolean isColored = !"never".equals(Environment.MAVEN_COLOR.getCommandLineOption(args));
                 if (isColored) {
                     // Print banner with color
                     String coloredBanner = new AttributedStringBuilder()
@@ -283,7 +284,6 @@ public class DefaultClient implements Client {
                             : "JVM client")
                     + " (" + buildProperties.getRevision() + ")";
 
-            boolean isColored = !"never".equals(Environment.MAVEN_COLOR.getCommandLineOption(args));
             final String v = isColored
                     ? new AttributedStringBuilder()
                             .style(AttributedStyle.BOLD)
