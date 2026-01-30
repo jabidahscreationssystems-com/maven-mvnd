@@ -259,6 +259,22 @@ public class DefaultClient implements Client {
 
         // Print version if needed
         if (version || showVersion || verbose) {
+            // Print ASCII art banner
+            String banner = loadBanner();
+            if (banner != null) {
+                boolean isColored = !"never".equals(Environment.MAVEN_COLOR.getCommandLineOption(args));
+                if (isColored) {
+                    // Print banner with color
+                    String coloredBanner = new AttributedStringBuilder()
+                            .style(AttributedStyle.DEFAULT.foreground(AttributedStyle.CYAN))
+                            .append(banner)
+                            .toAnsi();
+                    output.accept(Message.log(coloredBanner));
+                } else {
+                    output.accept(Message.log(banner));
+                }
+            }
+
             // Print mvnd version
             BuildProperties buildProperties = BuildProperties.getInstance();
             final String mvndVersionString = "Apache Maven Daemon (mvnd) " + buildProperties.getVersion() + " "
@@ -491,6 +507,17 @@ public class DefaultClient implements Client {
             return String.format(
                     "Purged %d log files with %d exceptions (%s)", deleted.size(), exceptions.size(), logMessage);
         }
+    }
+
+    private String loadBanner() {
+        try (java.io.InputStream is = getClass().getResourceAsStream("/banner.txt")) {
+            if (is != null) {
+                return new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+            }
+        } catch (IOException e) {
+            LOGGER.debug("Could not load banner", e);
+        }
+        return null;
     }
 
     private static class DefaultResult implements ExecutionResult {

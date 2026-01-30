@@ -443,6 +443,7 @@
               <exclude>src/test/projects/**/.settings/**</exclude>
               <exclude>src/test/projects/**/target/**</exclude>
               <exclude>**/META-INF/services/**</exclude>
+              <exclude>**/banner.txt</exclude>
             </excludes>
           </configuration>
         </plugin>
