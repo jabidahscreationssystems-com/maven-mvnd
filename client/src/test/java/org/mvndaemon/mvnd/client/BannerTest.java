@@ -20,6 +20,7 @@ package org.mvndaemon.mvnd.client;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 import org.junit.jupiter.api.Test;
 
@@ -32,8 +33,7 @@ public class BannerTest {
     void bannerFileExists() throws IOException {
         try (InputStream is = getClass().getResourceAsStream("/banner.txt")) {
             assertNotNull(is, "Banner file should exist");
-            String banner = new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
-            assertNotNull(banner, "Banner content should not be null");
+            String banner = new String(is.readAllBytes(), StandardCharsets.UTF_8);
             assertTrue(banner.contains("mvnd") || banner.contains("MVND"), "Banner should contain mvnd");
         }
     }

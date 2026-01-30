@@ -19,7 +19,9 @@
 package org.mvndaemon.mvnd.client;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -510,9 +512,9 @@ public class DefaultClient implements Client {
     }
 
     private String loadBanner() {
-        try (java.io.InputStream is = getClass().getResourceAsStream("/banner.txt")) {
+        try (InputStream is = getClass().getResourceAsStream("/banner.txt")) {
             if (is != null) {
-                return new String(is.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+                return new String(is.readAllBytes(), StandardCharsets.UTF_8);
             }
         } catch (IOException e) {
             LOGGER.debug("Could not load banner", e);
